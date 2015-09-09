@@ -1,5 +1,6 @@
 # Extended functionality beyond the official Coinbase Exchange
 # wrapper @ https://github.com/coinbase/coinbase-exchange-ruby
+
 class Exchange
   def self.account_id(trader, currency)
     trader.accounts do |resp|
@@ -24,11 +25,12 @@ class Exchange
   end
 
   def self.available_btc(book)
-    book['asks'].flat_map { |ask| ask[1].to_f }.reduce(:+)
+    book['asks'].count > 0 ? book['asks'].flat_map {|ask| ask[1].to_f }.reduce(:+) : 0
   end
 
-  def self.max_bid_price(book)
-    book['bids'].flat_map { |bid| bid[0].to_f }.max
+  def self.max_bid_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.max : 0
   end
 
   def self.replenish_btc(trader, btc_amount)

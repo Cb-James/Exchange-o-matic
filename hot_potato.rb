@@ -1,3 +1,4 @@
+# Creates two bots on the Sandbox and buys and sells endlessly between them 
 require 'coinbase/exchange' # main wrapper
 require_relative 'lib/exchange' # extended functionality
 

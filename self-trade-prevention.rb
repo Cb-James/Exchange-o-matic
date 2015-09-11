@@ -3,7 +3,12 @@
 require 'coinbase/exchange' # main wrapper
 require_relative 'lib/exchange' # extended functionality
 
-STP = 'cb'
+# Set desired self-trade behaviour
+#   cb => cancel both
+#   co => cancel oldest
+#   cn => cancel newest 
+#   dc => decrement and cancel
+STP = 'dc' 
 
 # Sandbox Account #1
 key = ENV['EXCHANGE_SB_ACCESS_KEY']

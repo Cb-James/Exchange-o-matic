@@ -27,7 +27,7 @@ while true  # infinite loop!
   # Use random amounts within a range  
   sale_price = BigDecimal(rand(max_bid_price + 0.01..max_bid_price + 100).to_s)
   btc_amount = BigDecimal(rand(1.00..3.00).to_s)
-  usd_amount = sale_price * btc_amount
+  usd_amount = sale_price * btc_amount * BigDecimal('1.25')
 
   # Top up accounts if nessesary
   Exchange.replenish_btc(alice, btc_amount) if Exchange.balance(alice, 'BTC') < btc_amount

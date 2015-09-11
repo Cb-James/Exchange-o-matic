@@ -3,6 +3,8 @@
 require 'coinbase/exchange' # main wrapper
 require_relative 'lib/exchange' # extended functionality
 
+STP = 'cb'
+
 # Sandbox Account #1
 key = ENV['EXCHANGE_SB_ACCESS_KEY']
 secret = ENV['EXCHANGE_SB_API_SECRET']
@@ -26,26 +28,26 @@ amount = '0.5'
 price = Exchange.max_bid_price(bot).ceil.to_i # make it higher than any existing bids
 price = 100 if price == 0 # if no bids, use an even $100
 puts sprintf "Bot sells %.2f BTC @ $%.2f", amount, price
-bot.sell(amount, price)
+bot.sell(amount, price, stp: STP)
 
 # Customer places BUY for existing sell plus more
 amount = '1.0'
 puts sprintf "Customer buys %.2f BTC @ $%.2f", amount, price
-customer.buy(amount, price) do |resp|
+customer.buy(amount, price, stp: STP) do |resp|
   @buy_id = resp.id
 end
 
 # Customer places SELL for more BTC than his buy, same price
 full_amount = '1.5'
 puts sprintf "Customer sells %.2f BTC @ $%.2f", full_amount, price
-customer.sell(full_amount, price) do |resp|
+customer.sell(full_amount, price, stp: STP) do |resp|
   @sell_id = resp.id
 end
 
 # Bot fills Customer's sell
 amount = '1'
 puts sprintf "Bot buys %.2f BTC @ $%.2f", amount, price
-bot.buy(amount, price)
+bot.buy(amount, price, stp: STP)
 
 # Print status for Customer's 2 orders
 customer.order(@buy_id) do |resp|
@@ -57,10 +59,12 @@ customer.order(@buy_id) do |resp|
   puts "Side: #{resp.side}"
   puts "STP: #{resp.stp}"
   puts "Type: #{resp.type}"
-  puts "Done reason: #{resp.done_reason}"
   puts sprintf "Filled size: %.2f", resp.filled_size
   puts "Status: #{resp.status}"
-  puts "Settled: #{resp.settled}"
+  if resp.status == "done"
+    puts "Done reason: #{resp.done_reason}"
+    puts "Settled: #{resp.settled}"
+  end
 end
 
 customer.order(@sell_id) do |resp|
@@ -72,8 +76,10 @@ customer.order(@sell_id) do |resp|
   puts "Side: #{resp.side}"
   puts "STP: #{resp.stp}"
   puts "Type: #{resp.type}"
-  puts "Done reason: #{resp.done_reason}"
   puts sprintf "Filled size: %.2f", resp.filled_size
   puts "Status: #{resp.status}"
-  puts "Settled: #{resp.settled}"
+  if resp.status == "done"
+    puts "Done reason: #{resp.done_reason}"
+    puts "Settled: #{resp.settled}"
+  end
 end

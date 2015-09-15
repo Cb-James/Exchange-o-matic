@@ -34,10 +34,26 @@ while true  # infinite loop!
   Exchange.replenish_usd(bob, usd_amount) if Exchange.balance(bob, 'USD') < usd_amount
   
   # Sell!
-  puts sprintf "Selling %.8f BTC @ $%.2f", btc_amount, sale_price
+  puts sprintf "Alice selling %.8f BTC @ $%.2f", btc_amount, sale_price
   alice.sell(btc_amount.round(8), sale_price.round(2))
 
+  sleep 5
+  
   # Buy!  
-  puts sprintf "Buying %.8f BTC @ $%.2f", btc_amount, sale_price
+  puts sprintf "Bob buying %.8f BTC @ $%.2f", btc_amount, sale_price
   bob.buy(btc_amount.round(8), sale_price.round(2))
+
+  sleep 5
+
+  # Sell!
+  puts sprintf "Bob selling %.8f BTC @ $%.2f", btc_amount, sale_price
+  bob.sell(btc_amount.round(8), sale_price.round(2))
+
+  sleep 5
+
+  #Buy!
+  puts sprintf "Alice buying %.8f BTC @ $%.2f", btc_amount, sale_price
+  alice.buy(btc_amount.round(8), sale_price.round(2))
+
+  sleep 5
 end

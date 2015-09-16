@@ -33,6 +33,21 @@ class Exchange
     book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.max : 0
   end
 
+  def self.min_bid_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.min : 0
+  end
+
+  def self.max_ask_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.max : 0
+  end
+
+  def self.min_ask_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.min : 0
+  end
+
   def self.replenish_btc(trader, btc_amount)
     wallet = "95671473-4dda-5264-a654-fc6923e8a334" # Official Sandbox fake BTC wallet       
     deposit_amount = (btc_amount + BigDecimal('10')).truncate(8).to_s('F')

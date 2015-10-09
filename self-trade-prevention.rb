@@ -30,7 +30,7 @@ customer = Coinbase::Exchange::Client.new(alt_key, alt_secret, alt_pass,
 
 # Bot places a sell order for Customer to buy
 amount = '0.5'
-price = Exchange.max_bid_price(bot).ceil.to_i # make it higher than any existing bids
+price = Coinbase::Exchange.max_bid_price(bot).ceil.to_i # make it higher than any existing bids
 price = 100 if price == 0 # if no bids, use an even $100
 puts sprintf "Bot sells %.2f BTC @ $%.2f", amount, price
 bot.sell(amount, price, stp: STP)

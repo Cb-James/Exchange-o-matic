@@ -19,7 +19,7 @@ customer = Coinbase::Exchange::Client.new(key, secret, pass,
   api_url: 'https://api-public.sandbox.exchange.coinbase.com')
 
 # Find the smallest price on the orderbook, and set ours below it
-price = [ Coinbase::Exchange.min_bid_price(customer), Coinbase::Exchange.min_ask_price(customer) ].min
+price = [ Exchange.min_bid_price(customer), Exchange.min_ask_price(customer) ].min
 puts sprintf "Lowest price: #{price}"
 price.to_f > 1 ? price = '1.69' : price = '0.00'
 

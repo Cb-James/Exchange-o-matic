@@ -30,30 +30,18 @@ while true  # infinite loop!
   usd_amount = sale_price * btc_amount * BigDecimal('1.25')
 
   # Top up accounts if nessesary
-  alice.replenish_btc(btc_amount) if alice.balance('BTC') < btc_amount
-  bob.replenish_usd(usd_amount) if bob.balance('USD') < usd_amount
+  alice.replenish('BTC', btc_amount) if alice.balance('BTC') < btc_amount
+  bob.replenish('USD', usd_amount) if bob.balance('USD') < usd_amount
   
   # Sell!
   puts sprintf "Alice selling %.8f BTC @ $%.2f", btc_amount, sale_price
   alice.sell(btc_amount.round(8), sale_price.round(2))
 
-  sleep 5
+  # sleep 5
   
   # Buy!  
   puts sprintf "Bob buying %.8f BTC @ $%.2f", btc_amount, sale_price
   bob.buy(btc_amount.round(8), sale_price.round(2))
 
-  sleep 5
-
-  # Sell!
-  puts sprintf "Bob selling %.8f BTC @ $%.2f", btc_amount, sale_price
-  bob.sell(btc_amount.round(8), sale_price.round(2))
-
-  sleep 5
-
-  #Buy!
-  puts sprintf "Alice buying %.8f BTC @ $%.2f", btc_amount, sale_price
-  alice.buy(btc_amount.round(8), sale_price.round(2))
-
-  sleep 5
+  # sleep 5
 end

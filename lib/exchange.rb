@@ -46,17 +46,19 @@ module Coinbase
         balance = BigDecimal(@record['balance']) - self.holds_balance(currency)
       end
     
-      def replenish_btc(btc_amount)
-        wallet = "95671473-4dda-5264-a654-fc6923e8a334" # Official Sandbox fake BTC wallet       
-        deposit_amount = (btc_amount + BigDecimal('10')).truncate(8).to_s('F')
-        puts sprintf "Depositing %.8f BTC", deposit_amount
-        self.deposit(wallet, deposit_amount)
-      end
-
-      def replenish_usd(usd_amount)
-        wallet = "bcdd4c40-df40-5d76-810c-74aab722b223" # Official Sandbox fake USD wallet
-        deposit_amount = (usd_amount + BigDecimal('1000')).truncate(2).to_s('F')
-        puts sprintf "Depositing $%.2f", deposit_amount
+      def replenish(currency, amount)
+        case currency
+        when 'BTC'
+          wallet = "95671473-4dda-5264-a654-fc6923e8a334" # Official Sandbox fake BTC wallet
+          deposit_amount = (amount + BigDecimal('10')).truncate(8).to_s('F')
+          puts sprintf "Depositing %.8f BTC", deposit_amount
+        when 'USD'
+          wallet = "bcdd4c40-df40-5d76-810c-74aab722b223" # Official Sandbox fake USD wallet
+          deposit_amount = (amount + BigDecimal('1000')).truncate(2).to_s('F')
+          puts sprintf "Depositing $%.2f", deposit_amount
+        else
+          raise 'Please specify BTC or USD'
+        end
         self.deposit(wallet, deposit_amount)
       end
     end

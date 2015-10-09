@@ -46,22 +46,22 @@ module Coinbase
 end
 
 class Exchange
-  def self.max_bid_price(trader)
+  def self.max_bid(trader)
     book = JSON.parse(trader.orderbook(level: 3))
     book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.max : 0
   end
 
-  def self.min_bid_price(trader)
+  def self.min_bid(trader)
     book = JSON.parse(trader.orderbook(level: 3))
     book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.min : 0
   end
 
-  def self.max_ask_price(trader)
+  def self.max_ask(trader)
     book = JSON.parse(trader.orderbook(level: 3))
     book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.max : 0
   end
 
-  def self.min_ask_price(trader)
+  def self.min_ask(trader)
     book = JSON.parse(trader.orderbook(level: 3))
     book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.min : 0
   end

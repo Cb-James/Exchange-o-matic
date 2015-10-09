@@ -3,26 +3,6 @@
 
 module Coinbase
   module Exchange
-    def self.max_bid_price(trader)
-      book = JSON.parse(trader.orderbook(level: 3))
-      book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.max : 0
-    end
-
-    def self.min_bid_price(trader)
-      book = JSON.parse(trader.orderbook(level: 3))
-      book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.min : 0
-    end
-
-    def self.max_ask_price(trader)
-      book = JSON.parse(trader.orderbook(level: 3))
-      book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.max : 0
-    end
-
-    def self.min_ask_price(trader)
-      book = JSON.parse(trader.orderbook(level: 3))
-      book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.min : 0
-    end
-
     class Client
       def account_id(currency)
         self.accounts do |resp|
@@ -62,5 +42,27 @@ module Coinbase
         self.deposit(wallet, deposit_amount)
       end
     end
+  end
+end
+
+class Exchange
+  def self.max_bid_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.max : 0
+  end
+
+  def self.min_bid_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['bids'].count > 0 ? book['bids'].flat_map { |bid| bid[0].to_f }.min : 0
+  end
+
+  def self.max_ask_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.max : 0
+  end
+
+  def self.min_ask_price(trader)
+    book = JSON.parse(trader.orderbook(level: 3))
+    book['asks'].count > 0 ? book['asks'].flat_map { |bid| bid[0].to_f }.min : 0
   end
 end

@@ -22,7 +22,7 @@ bob = Coinbase::Exchange::Client.new(alt_key, alt_secret, alt_pass,
 
 while true  # infinite loop!
   # Buy/Sell higher than existing orders
-  max_bid_price = Coinbase::Exchange.max_bid_price(alice).to_f
+  max_bid_price = Exchange.max_bid_price(alice).to_f
 
   # Use random amounts within a range  
   sale_price = BigDecimal(rand(max_bid_price + 0.01..max_bid_price + 100).to_s)
@@ -37,11 +37,11 @@ while true  # infinite loop!
   puts sprintf "Alice selling %.8f BTC @ $%.2f", btc_amount, sale_price
   alice.sell(btc_amount.round(8), sale_price.round(2))
 
-  # sleep 5
+  sleep 5
   
   # Buy!  
   puts sprintf "Bob buying %.8f BTC @ $%.2f", btc_amount, sale_price
   bob.buy(btc_amount.round(8), sale_price.round(2))
 
-  # sleep 5
+  sleep 5
 end

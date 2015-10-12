@@ -1,6 +1,5 @@
 # Extended functionality beyond the official Coinbase Exchange
 # wrapper @ https://github.com/coinbase/coinbase-exchange-ruby
-
 module Coinbase
   module Exchange
     # Extensions on the main class
@@ -39,7 +38,9 @@ module Coinbase
         account_id = account_id(currency)
         account_holds(account_id) do |holds|
           if holds.count > 0
-            balance = holds.flat_map { |hold| BigDecimal(hold.amount) }.reduce(:+)
+            balance = holds.flat_map do |hold|
+              BigDecimal(hold.amount)
+            end.reduce(:+)
           end
         end
         balance

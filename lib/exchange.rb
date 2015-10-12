@@ -46,7 +46,7 @@ module Coinbase
         balance
       end
 
-      def balance(currency, _balance = BigDecimal('0'))
+      def balance(currency)
         accounts do |resp|
           @record = resp.select { |account| account.currency == currency }[0]
         end

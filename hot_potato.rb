@@ -32,7 +32,7 @@ bob = Coinbase::Exchange::Bot.new(
 
 loop do
   # Buy/Sell higher than existing orders
-  max_bid = rest_api.max_bid.to_f
+  max_bid = rest_api.max_bid
 
   fee = 1.25
   # Random amounts make pretty graphs

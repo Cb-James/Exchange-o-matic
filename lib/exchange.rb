@@ -27,6 +27,8 @@ module Coinbase
 
     # Bot-type functionality goes here
     class Bot < Client
+      attr_accessor :target_price, :stop_loss
+
       def account_id(currency)
         accounts do |resp|
           @record = resp.select { |account| account.currency == currency }[0]
